@@ -1,0 +1,127 @@
+	
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AURELIA | Global Innovation Studio</title>
+	<style>
+	*{box-sizing:border-box}
+	body{margin:0;background:#080d1b;color:#fff;font-family:Arial,sans-serif}
+	header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #26304a}
+	.logo{font-size:24px;font-weight:bold;color:#a995ff}
+	nav a{color:#ddd;text-decoration:none;margin-left:18px;font-size:14px}
+	.hero{text-align:center;padding:75px 20px 55px;background:radial-gradient(circle at top,#28305e,#080d1b 70%)}
+	.tag{color:#b6a4ff;letter-spacing:3px;font-size:12px}
+	h1{font-size:clamp(36px,8vw,65px);margin:20px 0}
+	.hero p{color:#b9c0d5;line-height:1.7;max-width:650px;margin:auto}
+	button{background:#9278ff;color:white;border:0;border-radius:9px;padding:14px 23px;font-weight:bold;cursor:pointer}
+	button:hover{background:#7559e9}
+	main{max-width:950px;margin:auto;padding:35px 20px}
+	.panel{background:#111a30;border:1px solid #293451;border-radius:17px;padding:25px;margin-bottom:22px}
+	h2{margin-top:0}
+	label{display:block;margin:17px 0 8px;color:#d8dcef}
+	input,textarea,select{width:100%;padding:14px;background:#080f20;border:1px solid #35415f;border-radius:8px;color:white;font-size:15px}
+	textarea{min-height:120px;resize:vertical}
+	#result{display:none;line-height:1.7;color:#d5dcef}
+	.result-section{border-left:3px solid #9278ff;padding-left:14px;margin:20px 0}
+	footer{text-align:center;padding:30px;color:#8490aa;border-top:1px solid #26304a;font-size:13px}
+	.small{color:#8996b3;font-size:12px}
+	</style>
+	</head>
+	<body>
+	<header>
+	<div class="logo">AURELIA</div>
+	<nav><a href="#studio">Innovation Studio</a><a href="#about">About</a></nav>
+	</header>
+	
+	<section class="hero">
+	<div class="tag">GLOBAL INNOVATION PLATFORM</div>
+	<h1>Ideas become<br><span style="color:#a995ff">possibilities.</span></h1>
+	<p>Explore ideas, discover opportunities and transform problems into structured innovation concepts.</p>
+	<br><br>
+	<a href="#studio"><button>Enter Innovation Studio</button></a>
+	</section>
+	
+	<main>
+	<section class="panel" id="studio">
+	<h2>Innovation Studio</h2>
+	<p>Describe an idea or problem you want to solve.</p>
+	
+	<label for="idea">Your idea or problem</label>
+	<textarea id="idea" placeholder="Describe your idea here..."></textarea>
+	
+	<label for="people">Who will benefit?</label>
+	<input id="people" placeholder="e.g. Students, businesses, communities">
+	
+	<label for="field">Innovation field</label>
+	<select id="field">
+	<option>Technology</option>
+	<option>Education</option>
+	<option>Healthcare</option>
+	<option>Agriculture</option>
+	<option>Environment</option>
+	<option>Business</option>
+	<option>Other</option>
+	</select>
+	<br><br>
+	<button onclick="develop()">Develop My Idea</button>
+	<p class="small">Initial concept generator. Outputs are suggestions, not verified research.</p>
+	</section>
+	
+	<section class="panel" id="result">
+	<h2>Your Innovation Blueprint</h2>
+	<div id="output"></div>
+	<button onclick="copyResult()">Copy Blueprint</button>
+	</section>
+	
+	<section class="panel" id="about">
+	<h2>Our Mission</h2>
+	<p>AURELIA aims to make innovation more accessible by helping people turn early ideas into organised concepts and practical next steps.</p>
+	</section>
+	</main>
+	
+	<footer>
+	AURELIA GLOBAL INNOVATION STUDIO<br>
+	<small>Building possibilities through innovation.</small>
+	</footer>
+	
+	<script>
+	function develop(){
+	const idea=document.getElementById('idea').value.trim();
+	const people=document.getElementById('people').value.trim()||'People and communities';
+	const field=document.getElementById('field').value;
+	if(!idea){alert('Please describe your idea first.');return;}
+	
+	const sections=[
+	['01. Concept',idea],
+	['02. Innovation field',field],
+	['03. Intended beneficiaries',people],
+	['04. Problem to investigate','Identify the main difficulty your idea addresses. Interview potential users and establish how serious the problem is.'],
+	['05. Proposed solution','Develop a simple version of your idea. Define its main features and explain how they address the identified problem.'],
+	['06. Development roadmap','Research the problem, validate demand, design a prototype, test it with users and improve it.'],
+	['07. Feasibility','Investigate technical requirements, costs, resources, regulations and possible obstacles.'],
+	['08. Business opportunity','Explore potential customers, competitors, pricing options and sustainable revenue models.'],
+	['09. Next action','Speak to three potential users and document their feedback before investing in development.']
+	];
+	
+	let html='';
+	sections.forEach(s=>{
+	html+='<div class="result-section"><strong>'+s[0]+'</strong><p>'+escapeHTML(s[1])+'</p></div>';
+	});
+	document.getElementById('output').innerHTML=html;
+	document.getElementById('result').style.display='block';
+	document.getElementById('result').scrollIntoView({behavior:'smooth'});
+	}
+	function escapeHTML(s){
+	return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+	}
+	function copyResult(){
+	const text=document.getElementById('output').innerText;
+	if(navigator.clipboard){
+	navigator.clipboard.writeText(text).then(()=>alert('Blueprint copied.'));
+	}else{alert('Clipboard unavailable.');}
+	}
+	</script>
+	</body>
+	</html>
